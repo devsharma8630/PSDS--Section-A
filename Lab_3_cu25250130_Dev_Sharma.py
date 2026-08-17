@@ -1,27 +1,86 @@
-# Stack using Linked List
+//1.Implementing Stack using Linked List 
 
-stack = []
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
-stack.append(10)
-stack.append(20)
-stack.append(30)
+top = None
 
-print("Stack:", stack)
-x = stack.pop()
-print("Popped:", x)
+def push(value):
+    global top
+    newNode = Node(value)
+    newNode.next = top
+    top = newNode
+    print(value, "pushed into stack")
 
-print("Stack after pop:", stack)
+def pop():
+    global top
+    if top is None:
+        print("Stack Underflow")
+        return
+    print(top.data, "popped from stack")
+    top = top.next
 
-# Queue using Linked List
+def display():
+    temp = top
+    print("Stack:", end=" ")
+    while temp:
+        print(temp.data, end=" ")
+        temp = temp.next
+    print()
 
-queue = []
+push(10)
+push(20)
+push(30)
+display()
+pop()
+display()
 
-queue.append(10)
-queue.append(20)
-queue.append(30)
+//2.Implementing Queue using Linked List
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
 
-print("Queue:", queue)
-x = queue.pop(0)
-print("Dequeued:", x)
+front = rear = None
 
-print("Queue after dequeue:", queue)
+def enqueue(value):
+    global front, rear
+    newNode = Node(value)
+
+    if rear is None:
+        front = rear = newNode
+    else:
+        rear.next = newNode
+        rear = newNode
+
+    print(value, "enqueued into queue")
+
+def dequeue():
+    global front, rear
+    if front is None:
+        print("Queue is empty")
+        return
+
+    print(front.data, "dequeued from queue")
+    front = front.next
+
+    if front is None:
+        rear = None
+
+def display():
+    temp = front
+    print("Queue:", end=" ")
+    while temp:
+        print(temp.data, end=" ")
+        temp = temp.next
+    print()
+
+enqueue(10)
+enqueue(20)
+enqueue(30)
+display()
+dequeue()
+display()
+Footer
