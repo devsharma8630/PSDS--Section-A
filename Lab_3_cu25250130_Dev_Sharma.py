@@ -1,4 +1,4 @@
-//1.Implementing Stack using Linked List 
+#1.Implementing Stack using Linked List 
 
 class Node:
     def __init__(self, data):
@@ -37,7 +37,7 @@ display()
 pop()
 display()
 
-//2.Implementing Queue using Linked List
+#2.Implementing Queue using Linked List
 class Node:
     def __init__(self, data):
         self.data = data
