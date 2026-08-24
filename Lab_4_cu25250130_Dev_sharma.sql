@@ -1,0 +1,58 @@
+CREATE TABLE Department (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    department_id INT,
+    FOREIGN KEY (department_id)
+        REFERENCES Department(department_id)
+);
+
+CREATE TABLE Course (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credits INT,
+    department_id INT,
+    FOREIGN KEY (department_id)
+        REFERENCES Department(department_id)
+);
+
+CREATE TABLE Enrollment (
+    enrollment_id INT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id)
+        REFERENCES Student(student_id),
+    FOREIGN KEY (course_id)
+        REFERENCES Course(course_id)
+);
+
+INSERT INTO Department (department_id, department_name)
+VALUES
+(1, 'Computer Science'),
+(2, 'Information Technology'),
+(3, 'Electronics');
+
+INSERT INTO Student (student_id, student_name, email, department_id)
+VALUES
+(101, 'Rahul', 'rahul@gmail.com', 1),
+(102, 'Aman', 'aman@gmail.com', 1),
+(103, 'Priya', 'priya@gmail.com', 2);
+
+INSERT INTO Course (course_id, course_name, credits, department_id)
+VALUES
+(201, 'Database Management System', 4, 1),
+(202, 'Data Structures', 4, 1),
+(203, 'Computer Networks', 3, 2);
+
+INSERT INTO Enrollment (enrollment_id, student_id, course_id, enrollment_date)
+VALUES
+(1, 101, 201, '2026-08-01'),
+(2, 101, 202, '2026-08-02'),
+(3, 102, 201, '2026-08-03'),
+(4, 103, 203, '2026-08-04');
