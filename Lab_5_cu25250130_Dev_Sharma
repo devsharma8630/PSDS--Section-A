@@ -1,0 +1,111 @@
+#1-----Infnix to postfix
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        if len(self.items) == 0:
+            return None
+        return self.items.pop()
+
+    def peek(self):
+        if len(self.items) == 0:
+            return None
+        return self.items[-1]
+
+
+def priority(op):
+    if op == '+' or op == '-':
+        return 1
+    if op == '*' or op == '/':
+        return 2
+    return 0
+
+
+def infix_to_postfix(exp):
+    stack = Stack()
+    postfix = ""
+
+    for ch in exp:
+
+        # Operand
+        if ch.isalnum():
+            postfix += ch
+
+        # Opening bracket
+        elif ch == '(':
+            stack.push(ch)
+
+        # Closing bracket
+        elif ch == ')':
+            while stack.peek() != '(':
+                postfix += stack.pop()
+            stack.pop()
+
+        # Operator
+        else:
+            while (stack.peek() is not None and
+                   stack.peek() != '(' and
+                   priority(stack.peek()) >= priority(ch)):
+                postfix += stack.pop()
+
+            stack.push(ch)
+
+    while stack.peek() is not None:
+        postfix += stack.pop()
+
+    return postfix
+
+
+exp = input("Enter Infix expression: ")
+
+print("Postfix expression:", infix_to_postfix(exp))
+
+#2----Postfix Expression Evaluation
+
+class Stack:
+    def __init__(self):
+        self.items = []
+
+    def push(self, item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
+
+
+def evaluate(exp):
+    stack = Stack()
+
+    for ch in exp:
+
+        # If number
+        if ch.isdigit():
+            stack.push(int(ch))
+
+        else:
+            b = stack.pop()
+            a = stack.pop()
+
+            if ch == '+':
+                stack.push(a + b)
+
+            elif ch == '-':
+                stack.push(a - b)
+
+            elif ch == '*':
+                stack.push(a * b)
+
+            elif ch == '/':
+                stack.push(a // b)
+
+    return stack.pop()
+
+
+exp = input("Enter Postfix expression: ")
+
+print("Result:", evaluate(exp))
