@@ -1,0 +1,164 @@
+# 1.Problem 1: Implement a heap (min/max) and use it to build a priority queue; perform heap sort on an array of elements.
+# Heap, Priority Queue and Heap Sort
+'''
+class MaxHeap:
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, value):
+        self.heap.append(value)
+        i = len(self.heap) - 1
+
+        while i > 0:
+            parent = (i - 1) // 2
+            if self.heap[parent] >= self.heap[i]:
+                break
+            self.heap[parent], self.heap[i] = self.heap[i], self.heap[parent]
+            i = parent
+
+    def delete(self):
+        if not self.heap:
+            return None
+
+        root = self.heap[0]
+        last = self.heap.pop()
+
+        if self.heap:
+            self.heap[0] = last
+            i = 0
+
+            while True:
+                left = 2 * i + 1
+                right = 2 * i + 2
+                largest = i
+
+                if left < len(self.heap) and self.heap[left] > self.heap[largest]:
+                    largest = left
+
+                if right < len(self.heap) and self.heap[right] > self.heap[largest]:
+                    largest = right
+
+                if largest == i:
+                    break
+
+                self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]
+                i = largest
+
+        return root
+
+    def display(self):
+        print("Heap:", self.heap)
+
+
+# Priority Queue using Max Heap
+pq = MaxHeap()
+
+n = int(input("Enter number of elements: "))
+
+for i in range(n):
+    x = int(input("Enter element: "))
+    pq.insert(x)
+
+print("\nPriority Queue:")
+pq.display()
+
+print("Removing elements according to priority:")
+while pq.heap:
+    print(pq.delete(), end=" ")
+
+
+# Heap Sort
+def heap_sort(arr):
+    heap = MaxHeap()
+
+    for x in arr:
+        heap.insert(x)
+
+    result = []
+
+    while heap.heap:
+        result.append(heap.delete())
+
+    return result[::-1]
+
+
+arr = list(map(int, input("\n\nEnter array elements: ").split()))
+
+print("Original array:", arr)
+print("Sorted array:", heap_sort(arr))
+'''
+
+# 2.	Problem 2: Rearrange Array to Maximize Adjacent Sum Difference
+'''
+def maximize_difference(arr):
+    arr.sort()
+
+    n = len(arr)
+    result = []
+
+    # Take small and large elements alternately
+    left = 0
+    right = n - 1
+
+    while left <= right:
+        if left == right:
+            result.append(arr[left])
+        else:
+            result.append(arr[left])
+            result.append(arr[right])
+
+        left += 1
+        right -= 1
+
+    # Try both possible arrangements
+    a = result
+    b = result[::-1]
+
+    def calculate(x):
+        return sum(abs(x[i] - x[i - 1]) for i in range(1, len(x)))
+
+    if calculate(b) > calculate(a):
+        result = b
+
+    return result, calculate(result)
+
+
+# Input
+arr = list(map(int, input("Enter array elements: ").split()))
+
+result, total = maximize_difference(arr)
+
+print("Rearranged array:", result)
+print("Maximum sum:", total)
+'''
+
+
+# 3.	Problem 3: Smallest Subarray with Sum Greater Than Target
+
+'''
+def smallest_subarray(arr, target):
+    left = 0
+    current_sum = 0
+    min_length = float('inf')
+
+    for right in range(len(arr)):
+        current_sum += arr[right]
+
+        # Shrink the window while sum is greater than target
+        while current_sum > target:
+            min_length = min(min_length, right - left + 1)
+            current_sum -= arr[left]
+            left += 1
+
+    if min_length == float('inf'):
+        return -1
+
+    return min_length
+
+
+# Input
+arr = list(map(int, input("Enter array elements: ").split()))
+target = int(input("Enter target: "))
+
+print("Smallest subarray length:", smallest_subarray(arr, target))
+'''
