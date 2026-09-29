@@ -1,0 +1,19 @@
+def solve():
+    n = int(input("Enter no: "))
+    nums = list(map(int, input().split()))
+
+    count = {}
+
+    for num in nums:
+        digit_sum = sum(map(int, str(num)))
+        count[digit_sum] = count.get(digit_sum, 0) + 1
+
+    ans = 0
+
+    for freq in count.values():
+        ans += freq * (freq - 1) // 2
+
+    print(ans)
+
+
+solve()
